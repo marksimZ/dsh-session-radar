@@ -1,0 +1,27 @@
+# DSH loader overlay for the session radar.
+#
+# Apply it as a launcher layer:
+#   dsh web --patch D:/vibecoding/dshplugins/dsh-session-radar/cordis.patch.yml
+#
+# ...or append this one row to your profile's own patch layer
+# (`$DSH_HOME/profiles/<profile>/cordis.patch.yml`, the Desktop client uses
+# `desktop`), which reloads live. `node scripts/install.mjs` writes it for you.
+#
+# The row names the Host half by absolute file URL, so the plugin needs no
+# install step: the loader's own resolver locates `src/index.ts`, and the
+# nearest `package.json` is what lets the client-module scanner see the
+# `dsh.client` declaration and serve `src/client.js` as the browser bundle.
+
+- insert:
+    - id: session-radar
+      name: 'file:///D:/vibecoding/dshplugins/dsh-session-radar/src/index.ts'
+      config:
+        widgets:
+          # Top-right counter pill + switchable session list.
+          radar: true
+        # How long a finished session stays visible (30 minutes).
+        recentMs: 1800000
+        # Maximum rows the panel shows.
+        maxRows: 8
+        # Browser poll interval hint.
+        pollMs: 2000
